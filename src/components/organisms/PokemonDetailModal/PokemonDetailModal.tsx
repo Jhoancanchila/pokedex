@@ -109,7 +109,7 @@ const PokemonDetailModal: React.FC<ExtendedPokemonDetailModalProps> = ({
     <div 
       className="modal-backdrop" 
       onClick={handleBackdropClick}
-      onKeyDown={(e) => e.key === 'Enter' && handleBackdropClick(e)}
+      onKeyDown={(e) => e.key === 'Enter' && handleBackdropClick(e as unknown as React.MouseEvent<HTMLDivElement>)}
       role="button"
       tabIndex={0}
       aria-label="Close modal"

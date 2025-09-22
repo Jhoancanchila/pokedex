@@ -180,7 +180,8 @@ export class RestPokemonRepository implements PokemonRepository {
   async refreshPokemonData(): Promise<Pokemon[]> {
     try {
       // Para REST API, simplemente obtenemos datos frescos
-      return this.getPokemonList(20, 0);
+      const result = await this.getPokemonList(20, 0);
+      return result.pokemon;
     } catch (error: any) {
       if (error.message?.includes('Network request failed')) {
         throw new NetworkError(error);
@@ -207,7 +208,7 @@ export class RestPokemonRepository implements PokemonRepository {
         basic: basicResponse,
         species: speciesResponse
       };
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -219,7 +220,7 @@ export class RestPokemonRepository implements PokemonRepository {
       );
 
       return isValidPokemonSpeciesResponse(speciesResponse) ? speciesResponse : undefined;
-    } catch (error) {
+    } catch {
       return undefined;
     }
   }
@@ -227,13 +228,10 @@ export class RestPokemonRepository implements PokemonRepository {
   // Método para procesar Pokémon en lotes optimizados
   private async fetchPokemonInBatches(pokemonRefs: Array<{ name: string; url: string }>): Promise<Pokemon[]> {
     const results: Pokemon[] = [];
-    const totalBatches = Math.ceil(pokemonRefs.length / this.BATCH_SIZE);
-    
     
     // Dividir la lista en lotes
     for (let i = 0; i < pokemonRefs.length; i += this.BATCH_SIZE) {
       const batch = pokemonRefs.slice(i, i + this.BATCH_SIZE);
-      const batchNumber = Math.floor(i / this.BATCH_SIZE) + 1;
       
       
       // Procesar cada lote en paralelo
@@ -246,7 +244,7 @@ export class RestPokemonRepository implements PokemonRepository {
           if (!pokemonData) return null;
           
           return mapApiResponseToPokemon(pokemonData);
-        } catch (error) {
+        } catch {
           return null;
         }
       });

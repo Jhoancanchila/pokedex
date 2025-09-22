@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '../types';
+import type { Pokemon } from '../../types/pokemon';
 
 // Base selectors
 export const selectPokemonState = (state: RootState) => state.pokemon;
@@ -19,42 +20,42 @@ export const selectPokemonError = (state: RootState) => state.pokemon.error;
 // Memoized selectors for complex computations
 export const selectPokemonById = createSelector(
   [selectAllPokemon, (_: RootState, id: number) => id],
-  (pokemon, id) => pokemon.find(p => p.id === id)
+  (pokemon: Pokemon[], id: number) => pokemon.find((p: Pokemon) => p.id === id)
 );
 
 export const selectSelectedPokemonIndex = createSelector(
   [selectFilteredPokemon, selectSelectedPokemon],
-  (filteredPokemon, selectedPokemon) => {
+  (filteredPokemon: Pokemon[], selectedPokemon: Pokemon | null) => {
     if (!selectedPokemon) return -1;
-    return filteredPokemon.findIndex(p => p.id === selectedPokemon.id);
+    return filteredPokemon.findIndex((p: Pokemon) => p.id === selectedPokemon.id);
   }
 );
 
 export const selectCanNavigateNext = createSelector(
   [selectFilteredPokemon, selectSelectedPokemonIndex],
-  (filteredPokemon, selectedIndex) => {
+  (filteredPokemon: Pokemon[], selectedIndex: number) => {
     return selectedIndex >= 0 && selectedIndex < filteredPokemon.length - 1;
   }
 );
 
 export const selectCanNavigatePrevious = createSelector(
   [selectSelectedPokemonIndex],
-  (selectedIndex) => {
+  (selectedIndex: number) => {
     return selectedIndex > 0;
   }
 );
 
 export const selectPokemonStats = createSelector(
   [selectAllPokemon],
-  (pokemon) => ({
+  (pokemon: Pokemon[]) => ({
     total: pokemon.length,
-    types: [...new Set(pokemon.flatMap(p => p.type))].sort(),
+    types: [...new Set(pokemon.flatMap((p: Pokemon) => p.type))].sort(),
   })
 );
 
 export const selectPokemonByType = createSelector(
   [selectAllPokemon, (_: RootState, type: string) => type],
-  (pokemon, type) => pokemon.filter(p => p.type.includes(type))
+  (pokemon: Pokemon[], type: string) => pokemon.filter((p: Pokemon) => p.type.includes(type))
 );
 
 // Pagination selectors
@@ -66,7 +67,7 @@ export const selectHasPreviousPage = (state: RootState) => state.pokemon.hasPrev
 
 export const selectTotalPages = createSelector(
   [selectTotalItems, selectItemsPerPage],
-  (totalItems, itemsPerPage) => Math.ceil(totalItems / itemsPerPage)
+  (totalItems: number, itemsPerPage: number) => Math.ceil(totalItems / itemsPerPage)
 );
 
 // Favorites selectors
@@ -75,9 +76,9 @@ export const selectIsFavorite = (state: RootState, pokemonId: number) =>
   state.pokemon.favorites.includes(pokemonId);
 export const selectFavoritePokemon = createSelector(
   [selectAllPokemon, selectFavorites],
-  (pokemon, favorites) => pokemon.filter(p => favorites.includes(p.id))
+  (pokemon: Pokemon[], favorites: number[]) => pokemon.filter((p: Pokemon) => favorites.includes(p.id))
 );
 export const selectFavoritesCount = createSelector(
   [selectFavorites],
-  (favorites) => favorites.length
+  (favorites: number[]) => favorites.length
 );

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import type { RootState } from '../types';
 import { pokemonRepository } from '../../infrastructure/repositories/RestPokemonRepository';
 import { PokemonRepositoryError } from '../../domain/repositories/PokemonRepository';
 
@@ -8,7 +9,7 @@ export const fetchPokemonList = createAsyncThunk(
   'pokemon/fetchPokemonList',
   async (
     params: { limit: number; offset: number },
-    { rejectWithValue }
+    { rejectWithValue }: { rejectWithValue: (value: string) => any }
   ) => {
     try {
       const paginatedResponse = await pokemonRepository.getPokemonList(
@@ -30,7 +31,7 @@ export const fetchMorePokemon = createAsyncThunk(
   'pokemon/fetchMorePokemon',
   async (
     params: { limit: number; offset: number },
-    { rejectWithValue }
+    { rejectWithValue }: { rejectWithValue: (value: string) => any }
   ) => {
     try {
       const pokemon = await pokemonRepository.getPokemonList(
@@ -89,7 +90,7 @@ export const searchPokemonAsync = createAsyncThunk(
 // Thunk to fetch Pokemon by type
 export const fetchPokemonByType = createAsyncThunk(
   'pokemon/fetchPokemonByType',
-  async (typeName: string, { rejectWithValue }) => {
+  async (typeName: string, { rejectWithValue }: { rejectWithValue: (value: string) => any }) => {
     try {
       const pokemon = await pokemonRepository.getPokemonByType(typeName);
       return pokemon;
@@ -105,7 +106,7 @@ export const fetchPokemonByType = createAsyncThunk(
 // Thunk to fetch Pokemon types
 export const fetchPokemonTypes = createAsyncThunk(
   'pokemon/fetchPokemonTypes',
-  async (_, { rejectWithValue }) => {
+  async (_: void, { rejectWithValue }: { rejectWithValue: (value: string) => any }) => {
     try {
       const types = await pokemonRepository.getPokemonTypes();
       return types;
@@ -121,7 +122,7 @@ export const fetchPokemonTypes = createAsyncThunk(
 // Thunk to refresh Pokemon data
 export const refreshPokemonData = createAsyncThunk(
   'pokemon/refreshPokemonData',
-  async (_, { rejectWithValue }) => {
+  async (_: void, { rejectWithValue }: { rejectWithValue: (value: string) => any }) => {
     try {
       const pokemon = await pokemonRepository.refreshPokemonData();
       return pokemon;
@@ -137,7 +138,7 @@ export const refreshPokemonData = createAsyncThunk(
 // Thunk to go to next page
 export const goToNextPage = createAsyncThunk(
   'pokemon/goToNextPage',
-  async (_, { getState, rejectWithValue }) => {
+  async (_: void, { getState, rejectWithValue }: { getState: () => RootState; rejectWithValue: (value: string) => any }) => {
     try {
       const state = getState() as any;
       const { currentPage, itemsPerPage, hasNextPage } = state.pokemon;
@@ -166,7 +167,7 @@ export const goToNextPage = createAsyncThunk(
 // Thunk to go to previous page
 export const goToPreviousPage = createAsyncThunk(
   'pokemon/goToPreviousPage',
-  async (_, { getState, rejectWithValue }) => {
+  async (_: void, { getState, rejectWithValue }: { getState: () => RootState; rejectWithValue: (value: string) => any }) => {
     try {
       const state = getState() as any;
       const { currentPage, itemsPerPage, hasPreviousPage } = state.pokemon;

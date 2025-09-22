@@ -2,7 +2,6 @@ import React,{ Suspense, lazy } from 'react';
 const PokemonCard = lazy(() => import('../../atoms/PokemonCard'));
 import type { PokemonGridProps } from '../../../types/pokemon';
 import { useAppSelector } from '../../../store/hooks';
-import { selectIsFavorite } from '../../../store/selectors/pokemonSelectors';
 import './PokemonGrid.css';
 import PokemonCardLoader from '../../atoms/PokemonCardLoader';
 
@@ -15,10 +14,12 @@ const PokemonGrid: React.FC<ExtendedPokemonGridProps> = ({
   onPokemonClick, 
   onToggleFavorite 
 }) => {
+  const favorites = useAppSelector(state => state.pokemon.favorites);
+  
   return (
     <div className="pokemon-grid">
       {pokemon.map((poke) => {
-        const isFavorite = useAppSelector(state => selectIsFavorite(state, poke.id));
+        const isFavorite = favorites.includes(poke.id);
         
         return (
           <Suspense key={poke.id} fallback={<PokemonCardLoader />}>
