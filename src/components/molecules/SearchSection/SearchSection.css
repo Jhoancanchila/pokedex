@@ -1,0 +1,10 @@
+.search-section {
+  padding: 20px 0;
+  background: #DC0A2D;
+}
+
+@media (max-width: 768px) {
+  .search-section {
+    padding: 16px 0;
+  }
+}

@@ -1,0 +1,132 @@
+.pokemon-card-loader {
+  background: white;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.pokemon-card-loader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 0.25rem;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.pokemon-number-loader {
+  width: 3rem;
+  height: 1.2rem;
+  margin: 0 0 0.5rem auto;
+  border-radius: 0.5rem;
+}
+
+.pokemon-image-container-loader {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+
+.pokemon-image-loader {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+}
+
+.pokemon-name-loader {
+  height: 1.5rem;
+  width: 80%;
+  margin: 1rem auto 0.75rem auto;
+  border-radius: 0.375rem;
+}
+
+.pokemon-types-loader {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pokemon-type-loader {
+  height: 1.25rem;
+  width: 4rem;
+  border-radius: 1rem;
+}
+
+.pokemon-type-loader:first-child {
+  width: 3.5rem;
+}
+
+.pokemon-type-loader:last-child {
+  width: 4.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pokemon-card-loader {
+    padding: 0.75rem;
+  }
+  
+  .pokemon-image-container-loader {
+    height: 100px;
+  }
+  
+  .pokemon-image-loader {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .pokemon-name-loader {
+    height: 1.25rem;
+  }
+  
+  .pokemon-type-loader {
+    height: 1rem;
+    width: 3rem;
+  }
+}
+

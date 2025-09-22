@@ -1,0 +1,28 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.pokeball-icon {
+  font-size: 24px;
+  filter: brightness(0) invert(1);
+  display: flex;
+}
+
+.logo-text {
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 18px;
+  }
+  
+  .pokeball-icon {
+    font-size: 20px;
+  }
+}

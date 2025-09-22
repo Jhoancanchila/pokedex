@@ -1,0 +1,11 @@
+.pokemon-list {
+  background: #f8f9fa;
+  min-height: 100vh;
+  padding-top: 0;
+}
+
+@media (max-width: 768px) {
+  .pokemon-list {
+    background: #f5f5f5;
+  }
+}
