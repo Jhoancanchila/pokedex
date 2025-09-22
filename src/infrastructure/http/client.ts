@@ -37,5 +37,7 @@ export class HttpClient {
   }
 }
 
+const BASE_URL = import.meta.env.VITE_POKEMON_API_BASE_URL;
+
 // Cliente HTTP configurado para PokeAPI
-export const httpClient = new HttpClient('https://pokeapi.co/api/v2');
+export const httpClient = new HttpClient(BASE_URL);
